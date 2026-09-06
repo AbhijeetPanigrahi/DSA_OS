@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DSA OS - Problems</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container": "#e2e4ea",
+                        "surface-variant": "#dcdee4",
+                        "on-primary-fixed": "#1e1b4b",
+                        "inverse-primary": "#a5b4fc",
+                        "on-secondary-fixed-variant": "#404252",
+                        "outline": "#8a8c9a",
+                        "primary": "#6366f1",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "secondary-container": "#d8dae6",
+                        "surface": "#e8eaf0",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#6366f1",
+                        "on-error-container": "#991b1b",
+                        "on-surface-variant": "#585a68",
+                        "secondary": "#6c6e7e",
+                        "primary-fixed": "#e0e2ff",
+                        "error-container": "#fee2e2",
+                        "outline-variant": "#d0d2dc",
+                        "primary-container": "#818cf8",
+                        "on-surface": "#2e3040",
+                        "secondary-fixed-dim": "#b8baca",
+                        "tertiary-container": "#a78bfa",
+                        "on-primary-container": "#e0e2ff",
+                        "on-secondary-fixed": "#1a1b26",
+                        "surface-bright": "#edeef4",
+                        "background": "#e8eaf0",
+                        "surface-container-lowest": "#f0f2f8",
+                        "surface-container-highest": "#d6d8de",
+                        "on-background": "#2e3040",
+                        "surface-container-low": "#e5e7ed",
+                        "inverse-surface": "#2e3040",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "on-tertiary-fixed": "#2e1065",
+                        "surface-container-high": "#dcdee4",
+                        "error": "#dc2626",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "tertiary": "#7c3aed",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ede9fe",
+                        "on-tertiary-container": "#3b1f63",
+                        "inverse-on-surface": "#e8eaf0",
+                        "secondary-fixed": "#d8dae6",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "surface-dim": "#d4d6dc",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#585a68"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neo-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neo-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .neo-interactive:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+        }
+        .status-solved { color: #16a34a; } /* Semantic colors for status not explicitly in config */
+        .status-revision { color: #eab308; }
+        .status-unsolved { color: #9ca3af; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body h-screen w-full flex overflow-hidden antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 bottom-0 flex-col p-6 space-y-2 h-screen w-72 flex-shrink-0 bg-surface shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex items-center gap-4 mb-8 px-2">
+<div class="w-10 h-10 rounded-xl neo-raised flex items-center justify-center text-primary">
+<span class="material-symbols-outlined font-bold">terminal</span>
+</div>
+<div>
+<h1 class="font-display text-xl font-semibold text-primary tracking-tight">DSA OS</h1>
+<p class="text-xs text-on-surface-variant">Mission Control</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto space-y-2 pr-2">
+<!-- Tabs -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">today</span>
+<span>Today's Plan</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary font-semibold active:scale-[0.98] transition-transform bg-surface" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">code</span>
+<span>Problems</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">schema</span>
+<span>Patterns</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Journal</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Revision</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>Interview Mode</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span>Weekly Plan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-72 flex flex-col h-screen relative bg-surface">
+<!-- TopAppBar (from JSON context) -->
+<header class="flex justify-between items-center px-8 w-full h-20 sticky top-0 z-40 bg-surface shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)]">
+<div class="flex items-center gap-4">
+<!-- Mobile menu toggle (hidden on desktop) -->
+<button class="md:hidden p-2 rounded-full neo-raised text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:block font-display text-lg font-semibold text-primary">DSA OS</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.5)] rounded-full cursor-pointer active:scale-95 transition-all">
+<span class="material-symbols-outlined">local_fire_department</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.5)] rounded-full cursor-pointer active:scale-95 transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<img class="w-10 h-10 rounded-full object-cover neo-raised cursor-pointer active:scale-95 transition-all" data-alt="A small circular avatar placeholder image for a professional tech user interface. Minimalist light grey and soft indigo aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlkOc0qYw6RMz0-iyoCO-gqarjq2n64evf7UEGUC8h44XaTXlWUepJrantASN1xhzFdVll8wGWi1-NjSwaIHPmhPjNj498OWmH0yW0V-JKFXiNe09l57Y9lFH13QTunmQdvbo0QI6LtpJnyluv_Zd_jbIIuLdAT9dg4Jx4LvZMjHa4ozhOCYcz1_Bo83Oirdgoa2UbsMYrTZdo3_1hQwPn2ZdLZ8BGDH2Hv90rmDEkJGFmB6E0BT24"/>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-display text-4xl font-bold text-on-surface tracking-tight mb-2">PROBLEMS</h1>
+<p class="text-on-surface-variant text-sm md:text-base">Explore the complete DSA problem library.</p>
+</div>
+<div class="px-4 py-2 rounded-full neo-inset text-sm font-medium text-primary">
+                    186 problems
+                </div>
+</div>
+<!-- Search & Filters -->
+<div class="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between">
+<!-- Search -->
+<div class="relative w-full xl:w-80">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface text-on-surface placeholder-on-surface-variant rounded-xl border-none focus:ring-0 neo-inset text-sm transition-shadow outline-none" placeholder="Search problems..." type="text"/>
+</div>
+<div class="flex flex-wrap gap-4 items-center w-full xl:w-auto">
+<!-- Status Tabs -->
+<div class="flex items-center p-1 rounded-xl neo-raised bg-surface">
+<button class="px-4 py-2 text-sm font-semibold rounded-lg bg-surface neo-inset text-primary transition-all">All</button>
+<button class="px-4 py-2 text-sm font-medium rounded-lg text-on-surface-variant hover:text-on-surface transition-all">Unsolved</button>
+<button class="px-4 py-2 text-sm font-medium rounded-lg text-on-surface-variant hover:text-on-surface transition-all">Solved</button>
+<button class="px-4 py-2 text-sm font-medium rounded-lg text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1">
+                            Needs Revision
+                        </button>
+</div>
+<!-- Dropdowns -->
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl neo-raised bg-surface text-sm font-medium text-on-surface-variant hover:text-on-surface neo-interactive transition-all">
+                            Difficulty <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl neo-raised bg-surface text-sm font-medium text-on-surface-variant hover:text-on-surface neo-interactive transition-all">
+                            Pattern <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl neo-raised bg-surface text-sm font-medium text-on-surface-variant hover:text-on-surface neo-interactive transition-all">
+                            Topic <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<!-- Sorting -->
+<div class="ml-auto xl:ml-4">
+<button class="flex items-center gap-1 text-sm font-medium text-primary hover:text-tertiary transition-colors">
+                            Sort: Recommended <span class="material-symbols-outlined text-[18px]">arrow_drop_down</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recommendations -->
+<div>
+<h2 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-4 ml-2">Recommended For You</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Rec Card 1 -->
+<div class="p-5 rounded-2xl neo-raised bg-surface flex items-center justify-between group cursor-pointer hover:shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.7)] transition-shadow">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-surface-variant text-on-surface uppercase tracking-wide">Recursion</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-primary">Focus Area</span>
+</div>
+<h3 class="font-semibold text-on-surface text-base">Recursion Basics</h3>
+<p class="text-xs text-on-surface-variant mt-1">Foundation practice needed.</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-semibold text-primary">Easy</span>
+<div class="w-8 h-8 rounded-full neo-raised flex items-center justify-center text-primary group-hover:neo-inset transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Rec Card 2 -->
+<div class="p-5 rounded-2xl neo-raised bg-surface flex items-center justify-between group cursor-pointer hover:shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.7)] transition-shadow">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-surface-variant text-on-surface uppercase tracking-wide">DFS / Trees</span>
+</div>
+<h3 class="font-semibold text-on-surface text-base">Path Sum</h3>
+<p class="text-xs text-on-surface-variant mt-1">Good follow-up to recent work.</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-semibold text-tertiary">Medium</span>
+<div class="w-8 h-8 rounded-full neo-raised flex items-center justify-center text-primary group-hover:neo-inset transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Problem List -->
+<div class="rounded-2xl neo-raised bg-surface overflow-hidden">
+<!-- Header Row -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-5 text-xs font-semibold text-on-surface-variant tracking-wider uppercase border-b border-surface-variant/50">
+<div>Title</div>
+<div>Difficulty</div>
+<div>Pattern</div>
+<div>Status</div>
+<div>Last Attempt</div>
+<div class="w-8"></div>
+</div>
+<!-- List Items (Dense) -->
+<div class="flex flex-col">
+<!-- Row 1 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors border-b border-surface-variant/30 group cursor-pointer">
+<div class="font-medium text-on-surface">Two Sum</div>
+<div><span class="text-xs font-semibold text-primary">Easy</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">Hash Map</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-solved">check_circle</span>
+                            Solved independently
+                        </div>
+<div class="text-xs text-on-surface-variant">Aug 24</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors border-b border-surface-variant/30 group cursor-pointer bg-surface-bright/30">
+<div class="font-medium text-on-surface">Longest Substring Without Repeating Characters</div>
+<div><span class="text-xs font-semibold text-tertiary">Medium</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">Sliding Window</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-revision">refresh</span>
+                            Needs revision
+                        </div>
+<div class="text-xs text-on-surface-variant">Aug 22</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors border-b border-surface-variant/30 group cursor-pointer">
+<div class="font-medium text-on-surface">Valid Palindrome</div>
+<div><span class="text-xs font-semibold text-primary">Easy</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">Two Pointers</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-solved">check_circle</span>
+                            Solved independently
+                        </div>
+<div class="text-xs text-on-surface-variant">Aug 20</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors border-b border-surface-variant/30 group cursor-pointer">
+<div class="font-medium text-on-surface">Merge k Sorted Lists</div>
+<div><span class="text-xs font-semibold text-error">Hard</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">Heap / Priority Queue</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-unsolved">radio_button_unchecked</span>
+                            Not attempted
+                        </div>
+<div class="text-xs text-on-surface-variant">--</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Row 5 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors border-b border-surface-variant/30 group cursor-pointer">
+<div class="font-medium text-on-surface">Climbing Stairs</div>
+<div><span class="text-xs font-semibold text-primary">Easy</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">1D DP</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-solved">check_circle</span>
+                            Solved independently
+                        </div>
+<div class="text-xs text-on-surface-variant">Aug 18</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Row 6 -->
+<div class="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1fr_auto] gap-4 p-4 items-center hover:bg-surface-bright transition-colors group cursor-pointer">
+<div class="font-medium text-on-surface">Number of Islands</div>
+<div><span class="text-xs font-semibold text-tertiary">Medium</span></div>
+<div><span class="px-2.5 py-1 rounded-lg text-xs font-medium neo-inset bg-surface text-on-surface-variant">Graphs</span></div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] status-unsolved">radio_button_unchecked</span>
+                            Not attempted
+                        </div>
+<div class="text-xs text-on-surface-variant">--</div>
+<div class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant group-hover:text-primary group-hover:neo-raised transition-all">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between pb-8">
+<div class="text-sm text-on-surface-variant">
+                    Showing <span class="font-semibold text-on-surface">1–25</span> of <span class="font-semibold text-on-surface">186</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-xl neo-raised bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary neo-interactive transition-all disabled:opacity-50 disabled:shadow-none" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-xl neo-raised bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary neo-interactive transition-all">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

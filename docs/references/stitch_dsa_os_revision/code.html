@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revision - DSA OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dcdee4",
+                        "tertiary": "#7c3aed",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "surface-container": "#e2e4ea",
+                        "primary": "#6366f1",
+                        "surface-container-low": "#e5e7ed",
+                        "secondary": "#6c6e7e",
+                        "background": "#e8eaf0",
+                        "on-tertiary-fixed": "#2e1065",
+                        "on-background": "#2e3040",
+                        "error": "#dc2626",
+                        "tertiary-fixed": "#ede9fe",
+                        "inverse-primary": "#a5b4fc",
+                        "outline-variant": "#d0d2dc",
+                        "on-secondary-fixed-variant": "#404252",
+                        "on-secondary-fixed": "#1a1b26",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#585a68",
+                        "on-error-container": "#991b1b",
+                        "secondary-fixed": "#d8dae6",
+                        "surface-variant": "#dcdee4",
+                        "on-surface": "#2e3040",
+                        "surface-tint": "#6366f1",
+                        "primary-container": "#818cf8",
+                        "surface-container-lowest": "#f0f2f8",
+                        "surface-dim": "#d4d6dc",
+                        "secondary-fixed-dim": "#b8baca",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "on-primary-fixed": "#1e1b4b",
+                        "surface-bright": "#edeef4",
+                        "tertiary-container": "#a78bfa",
+                        "surface-container-highest": "#d6d8de",
+                        "inverse-surface": "#2e3040",
+                        "surface": "#e8eaf0",
+                        "outline": "#8a8c9a",
+                        "on-tertiary-container": "#3b1f63",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#e0e2ff",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#d8dae6",
+                        "on-secondary-container": "#585a68",
+                        "primary-fixed": "#e0e2ff",
+                        "inverse-on-surface": "#e8eaf0",
+                        "error-container": "#fee2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Neomorphic Utilities */
+        .neo-surface {
+            background-color: theme('colors.surface');
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+            border-radius: 1.5rem; /* 24px */
+        }
+        
+        .neo-inset {
+            background-color: theme('colors.surface');
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            border-radius: 1rem; /* 16px */
+        }
+
+        .neo-input {
+            background-color: theme('colors.surface');
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            border: none;
+            outline: none;
+        }
+        .neo-input:focus {
+            box-shadow: inset 6px 6px 10px rgba(0,0,0,0.08), inset -6px -6px 10px rgba(255,255,255,0.7);
+        }
+        
+        .neo-button-primary {
+            background-color: theme('colors.surface');
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+        .neo-button-primary:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-body bg-surface text-on-surface">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 bottom-0 flex-col p-6 space-y-2 h-screen w-72 flex-shrink-0 bg-surface dark:bg-surface shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<!-- Brand -->
+<div class="flex items-center gap-4 px-4 py-6 mb-4">
+<div class="h-10 w-10 rounded-full neo-surface flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary" data-weight="fill">developer_board</span>
+</div>
+<div>
+<h1 class="font-display text-xl font-semibold text-primary dark:text-primary tracking-tight">DSA OS</h1>
+<p class="text-xs font-medium text-on-surface-variant">Mission Control</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">code</span>
+<span class="font-medium">Problems</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">schema</span>
+<span class="font-medium">Patterns</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-medium">Journal</span>
+</a>
+<!-- ACTIVE TAB -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary font-semibold active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">history</span>
+<span>Revision</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-medium">Interview Mode</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-medium">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-medium">Weekly Plan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-medium">Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-72 flex flex-col h-screen overflow-hidden">
+<!-- Header Section -->
+<header class="flex-shrink-0 px-8 py-8 pt-10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-on-surface font-headline mb-2 uppercase">REVISION</h2>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<p class="font-medium text-sm">Strengthen what you've already learned through active recall.</p>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface neo-surface text-primary">
+                            3 due today
+                        </span>
+</div>
+</div>
+<!-- Top Summary Metrics -->
+<div class="flex flex-col items-end gap-1">
+<span class="text-sm font-bold text-primary uppercase tracking-wider">3 PROBLEMS DUE</span>
+<div class="flex items-center gap-3">
+<div class="w-32 h-2 bg-surface-container-high rounded-full overflow-hidden neo-inset">
+<div class="w-0 h-full bg-primary transition-all duration-500"></div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">0 / 3 completed</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Two-Column Workspace -->
+<div class="flex-1 px-8 pb-8 overflow-hidden">
+<div class="max-w-7xl mx-auto h-full flex flex-col lg:flex-row gap-8">
+<!-- Left Column: Revision Queue (~35%) -->
+<div class="w-full lg:w-[35%] flex flex-col h-full neo-surface p-6">
+<div class="mb-4">
+<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">event_available</span>
+                            Due Today
+                        </h3>
+</div>
+<!-- Queue List -->
+<div class="flex-1 overflow-y-auto pr-2 space-y-4 custom-scrollbar">
+<!-- Selected Item -->
+<button class="w-full text-left neo-inset p-4 rounded-xl flex flex-col gap-2 transition-all group">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-semibold text-primary group-hover:text-tertiary transition-colors leading-tight">Two Sum</h4>
+<span class="material-symbols-outlined text-primary text-sm">chevron_right</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-on-surface-variant"><span class="text-primary font-medium">Easy</span>
+<span class="w-full text-[10px] uppercase tracking-wider mt-1 opacity-80">Last reviewed: 7 days ago</span></div>
+</button>
+<!-- Unselected Items -->
+<button class="w-full text-left bg-surface hover:neo-surface p-4 rounded-xl flex flex-col gap-2 transition-all group border border-transparent hover:border-surface-dim">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-medium text-on-surface group-hover:text-primary transition-colors leading-tight">Longest Substring Without Repeating Characters</h4>
+</div>
+<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-on-surface-variant"><span class="text-[#eab308] font-medium">Medium</span>
+<span class="w-full text-[10px] uppercase tracking-wider mt-1 opacity-80">Last reviewed: 7 days ago</span></div>
+</button>
+<button class="w-full text-left bg-surface hover:neo-surface p-4 rounded-xl flex flex-col gap-2 transition-all group border border-transparent hover:border-surface-dim">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-medium text-on-surface group-hover:text-primary transition-colors leading-tight">Binary Search</h4>
+</div>
+<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-on-surface-variant"><span class="text-primary font-medium">Easy</span>
+<span class="w-full text-[10px] uppercase tracking-wider mt-1 opacity-80">Last reviewed: 14 days ago</span></div>
+</button>
+<!-- Upcoming Section -->
+</div>
+</div>
+<!-- Right Column: Active Recall Workspace (~65%) -->
+<div class="w-full lg:w-[65%] flex flex-col h-full neo-surface p-8 relative overflow-hidden">
+<!-- Decorative Element -->
+<div class="absolute -right-16 -top-16 w-64 h-64 rounded-full neo-surface opacity-30 pointer-events-none"></div>
+<!-- Workspace Header -->
+<div class="mb-8 relative z-10 border-b border-surface-container-high pb-6">
+<h2 class="text-3xl font-bold text-on-surface font-headline mb-3 tracking-tight">TWO SUM</h2>
+<div class="flex flex-wrap items-center gap-4 text-sm font-medium"><span class="px-3 py-1 rounded-full neo-inset text-primary">Easy</span>
+<span class="text-on-surface-variant ml-auto text-xs uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">update</span>
+    Last reviewed: 7 days ago
+</span></div>
+</div>
+<!-- Instruction -->
+<div class="mb-6 relative z-10">
+<p class="text-lg font-medium text-tertiary flex items-center gap-2">
+<span class="material-symbols-outlined">psychology</span>
+                            Can you recall the approach without looking?
+                        </p>
+</div>
+<!-- Active Recall Form -->
+<div class="flex-1 overflow-y-auto pr-4 space-y-8 custom-scrollbar relative z-10 pb-20"><div class="space-y-3">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+        1. What pattern does this problem use?
+    </label>
+<div class="relative">
+<select class="w-full neo-input rounded-xl px-4 py-3 text-on-surface appearance-none focus:ring-0">
+<option disabled="" selected="" value="">Select a core pattern...</option>
+<option value="hash_map">Hash Map</option>
+<option value="two_pointers">Two Pointers</option>
+<option value="sliding_window">Sliding Window</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="space-y-3">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+        2. Can you explain the approach?
+    </label>
+<textarea class="w-full neo-input rounded-xl px-4 py-3 text-on-surface resize-none focus:ring-0 placeholder-secondary/50" placeholder="Describe how you would solve this problem in your own words..." rows="6"></textarea>
+</div></div>
+<!-- Action Footer -->
+<div class="absolute bottom-0 left-0 right-0 p-8 pt-4 bg-gradient-to-t from-surface via-surface to-transparent z-20 flex justify-end">
+<button class="neo-button-primary px-8 py-3 flex items-center gap-2 group text-primary font-bold">
+<span>Check My Recall</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<style>
+        /* Custom Scrollbar for Neo Theme */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: theme('colors.surface-dim');
+            border-radius: 20px;
+        }
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+            background-color: theme('colors.outline-variant');
+        }
+    </style>
+</body></html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head></head><body class="bg-surface text-on-surface font-body overflow-hidden flex h-screen w-full selection:bg-primary-container selection:text-on-primary-container"><svg aria-hidden="true" class="inline-defs-container" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>DSA OS - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6366f1",
+                        "primary-container": "#818cf8",
+                        "secondary-fixed-dim": "#b8baca",
+                        "surface-bright": "#edeef4",
+                        "secondary": "#6c6e7e",
+                        "surface-container-lowest": "#f0f2f8",
+                        "tertiary": "#7c3aed",
+                        "error": "#dc2626",
+                        "on-primary-fixed": "#1e1b4b",
+                        "outline": "#8a8c9a",
+                        "inverse-surface": "#2e3040",
+                        "secondary-container": "#d8dae6",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "tertiary-container": "#a78bfa",
+                        "on-tertiary-container": "#3b1f63",
+                        "surface-container-low": "#e5e7ed",
+                        "surface-container-highest": "#d6d8de",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-high": "#dcdee4",
+                        "surface-variant": "#dcdee4",
+                        "on-background": "#2e3040",
+                        "outline-variant": "#d0d2dc",
+                        "primary-fixed": "#e0e2ff",
+                        "on-error-container": "#991b1b",
+                        "surface-container": "#e2e4ea",
+                        "tertiary-fixed": "#ede9fe",
+                        "on-tertiary-fixed": "#2e1065",
+                        "surface": "#e8eaf0",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "on-secondary-fixed-variant": "#404252",
+                        "secondary-fixed": "#d8dae6",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#2e3040",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "inverse-primary": "#a5b4fc",
+                        "on-secondary-fixed": "#1a1b26",
+                        "error-container": "#fee2e2",
+                        "surface-tint": "#6366f1",
+                        "on-primary-container": "#e0e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#585a68",
+                        "background": "#e8eaf0",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d4d6dc",
+                        "on-surface-variant": "#585a68"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    boxShadow: {
+                        'neo-raised': '6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6)',
+                        'neo-pressed': 'inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5)',
+                        'neo-sm': '3px 3px 6px rgba(0,0,0,0.06), -3px -3px 6px rgba(255,255,255,0.5)',
+                        'neo-glow': '0 0 15px rgba(249, 115, 22, 0.3), 4px 4px 10px rgba(0,0,0,0.05), -4px -4px 10px rgba(255,255,255,0.8)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #e8eaf0;
+            color: #2e3040;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Neomorphic Styles */
+        .neo-button {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+            transition: all 0.2s ease-in-out;
+        }
+        .neo-button:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+        .neo-button-primary {
+            background-color: #3b28cc; /* adjusted for high contrast */
+            color: white;
+            box-shadow: 4px 4px 10px rgba(99,102,241,0.3), -4px -4px 10px rgba(255,255,255,0.6);
+        }
+        .neo-button-primary:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2);
+        }
+        .neo-card {
+            background-color: #e8eaf0;
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+            border-radius: 1.5rem;
+        }
+        .neo-progress-track {
+            background-color: #e8eaf0;
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .neo-progress-bar {
+            background: #3b28cc;
+            border-radius: 9999px;
+            height: 100%;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d0d2dc;
+            border-radius: 10px;
+        }
+    </style>
+
+
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 bottom-0 flex flex-col p-6 space-y-2 bg-surface h-screen w-[250px] flex-shrink-0 z-50">
+<div class="flex items-center gap-4 mb-8 px-2 justify-between w-full">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center neo-button">
+<span class="material-symbols-outlined text-primary fill">terminal</span>
+</div>
+<div>
+<h1 class="font-display text-xl font-semibold text-primary tracking-tight">DSA OS</h1>
+<p class="text-[10px] text-on-surface-variant font-medium">Mission Control</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center bg-surface neo-button ml-2">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto space-y-2 pr-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-semibold transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined fill" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="today">event</span>
+<span class="">Today's Plan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+<span class="">Problems</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="schema">account_tree</span>
+<span class="">Patterns</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="">Journal</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="">Revision</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">bar_chart</span>
+<span class="">Analytics</span>
+</a>
+<div class="h-px w-full bg-outline-variant/30 my-4"></div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="">Interview Mode</span>
+</a>
+<div class="h-px w-full bg-outline-variant/30 my-4"></div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_today</span>
+<span class="">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">date_range</span>
+<span class="">Weekly Plan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="">Notes</span>
+</a>
+</div>
+<div class="pt-4 mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-[250px] flex-1 flex flex-col h-screen overflow-hidden bg-[#f0f2f5] relative">
+<!-- Header area -->
+<header class="w-full h-32 flex justify-between items-center px-10 pb-4 pt-10 z-40 bg-[#f0f2f5] flex-shrink-0">
+<div>
+<h2 class="text-3xl font-bold font-headline text-on-surface tracking-tight flex items-center gap-2">Good morning, Abhijeet <span class="text-3xl">👋</span></h2>
+<p class="text-sm text-on-surface-variant font-medium mt-1">Monday, August 24 · Day 17 of your DSA journey</p>
+</div>
+<div class="flex items-center gap-6 pb-1">
+<div class="flex items-center gap-4 px-6 py-3 rounded-2xl bg-orange-500/10 neo-card border-none relative overflow-hidden">
+<span class="text-4xl drop-shadow-sm relative z-10">🔥</span>
+<span class="font-display font-bold text-4xl text-orange-500 leading-none tracking-tight relative z-10">6</span>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-black/5 cursor-pointer active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
+<img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3L7J8KOfyUc4Fn-tpfitM7dL4zJ3GCCrL9zLyELhND8MZSH6qZwrMl-PeTp0LbObjzJYkS7yFpQ1J06oWff_-HyJqP0gI8LY7a9tvkgkPuYMKODpJN4eUY6heM5YGWg6XKrhBuigReBsMBUg4Kw7gEnQ_I3HTDRjGEUpcF7Qe-o3HnfflS15-AseIXpyrxC-PSNFrHrTr4OcMWe2rnPDwJrEPgEfEtgPl2AQ5xYY48XNU65Uizx3H">
+</button>
+</div>
+</div>
+</header>
+<!-- Scrollable Main Content -->
+<div class="flex-1 overflow-y-auto px-10 py-6 space-y-6">
+<!-- Top Row: Mission & Metrics -->
+<section class="grid grid-cols-12 gap-6">
+<!-- Hero: TODAY'S MISSION -->
+<div class="col-span-8 neo-card relative overflow-hidden flex flex-col justify-between min-h-[380px] p-8 bg-white/50 backdrop-blur-sm border border-white"><div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-green-600 text-xl">track_changes</span>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase">TODAY'S MISSION</p>
+</div>
+<h3 class="text-4xl font-bold text-on-surface tracking-tight">Arrays + Hashing</h3>
+<p class="text-sm text-on-surface-variant mt-2">Today's focus: <span class="text-green-600 font-semibold">Build stronger pattern recognition.</span></p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface mb-2">1 of 2 problems completed</p>
+<div class="w-48 h-3 bg-gray-200 rounded-full overflow-hidden">
+<div class="bg-green-500 rounded-full h-full w-[50%]"></div>
+</div>
+</div>
+</div>
+<div class="space-y-4 flex-1 mt-4">
+<div class="flex items-center justify-between p-5 rounded-2xl border border-gray-200/60 bg-white/80">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white font-bold">check</span>
+</div>
+<div>
+<span class="text-lg font-bold text-on-surface">Contains Duplicate</span>
+<div class="flex items-center gap-3 mt-1">
+<span class="text-[10px] font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">EASY</span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ~15 min</span>
+</div>
+</div>
+</div>
+<button class="text-sm font-bold text-on-surface border border-gray-300 rounded-xl px-6 py-2 hover:bg-black/5 transition-colors">Open on LeetCode <span class="material-symbols-outlined text-sm">open_in_new</span></button>
+</div>
+<div class="flex items-center justify-between p-5 rounded-2xl border border-gray-200/60 bg-white/80">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center bg-gray-50"></div>
+<div>
+<span class="text-lg font-bold text-on-surface">Valid Anagram</span>
+<div class="flex items-center gap-3 mt-1">
+<span class="text-[10px] font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">EASY</span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ~15 min</span>
+</div>
+</div>
+</div>
+<button class="text-sm font-bold text-on-surface border border-gray-300 rounded-xl px-6 py-2 hover:bg-black/5 transition-colors">Open on LeetCode <span class="material-symbols-outlined text-sm">open_in_new</span></button>
+</div>
+</div>
+<div class="flex justify-end mt-6">
+<button class="px-10 py-4 rounded-2xl bg-green-600 text-white font-bold text-lg flex items-center gap-2 shadow-lg hover:bg-green-700 transition-all active:scale-95">Start Today's Session <span class="material-symbols-outlined">arrow_forward</span></button>
+</div></div>
+<!-- Metrics Uplift -->
+<div class="col-span-4 flex flex-col">
+<p class="text-[10px] font-bold text-[#1a1a2e] tracking-widest uppercase mb-4">This Week</p>
+<div class="grid gap-4 mb-4 grid-cols-3">
+<div class="neo-card p-6 bg-white border-none flex flex-col items-center text-center">
+<span class="text-6xl font-display font-bold text-on-surface mb-1">14</span>
+<span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">PROBLEMS SOLVED</span>
+<div class="mt-4">
+<span class="material-symbols-outlined text-green-600 text-3xl">check_circle</span>
+</div>
+</div>
+<div class="neo-card p-6 bg-white border-none flex flex-col items-center text-center">
+<span class="text-6xl font-display font-bold text-orange-500 mb-1">8</span>
+<span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">REVISIONS</span>
+<div class="mt-4">
+<span class="material-symbols-outlined text-orange-500 text-3xl">history</span>
+</div>
+</div>
+<div class="neo-card p-6 bg-white border-none flex flex-col items-center text-center">
+<span class="text-6xl font-display font-bold text-purple-600 mb-1">3</span>
+<span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">CONTESTS GIVEN</span>
+<div class="mt-4">
+<span class="text-3xl">🏆</span>
+</div>
+</div></div>
+<div class="flex-1 flex flex-col space-y-3">
+<div class="neo-card p-4 bg-white/60 border border-white flex items-center justify-between group cursor-pointer hover:bg-white/80 transition-colors"><div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl flex items-center justify-center bg-green-100">
+<span class="material-symbols-outlined text-green-600 text-2xl">menu_book</span>
+</div>
+<div>
+<h4 class="font-bold text-base text-on-surface">Pattern Journal</h4>
+<p class="text-xs text-orange-500 font-bold">2 entries pending</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span></div>
+
+</div>
+</div>
+</section>
+<!-- SECONDARY ROW -->
+<section class="grid grid-cols-2 gap-6">
+<div class="neo-card p-6 bg-white/60 border border-white flex flex-col h-full">
+<p class="text-[10px] font-bold text-[#3b28cc] tracking-widest uppercase mb-6">Next Up</p>
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="text-2xl font-bold text-[#1a1a2e]">Two Sum</h4>
+<div class="flex items-center gap-3 mt-3">
+<span class="text-[10px] font-bold text-[#3b28cc] bg-[#3b28cc]/10 px-2 py-1 rounded-md">EASY</span>
+<span class="text-xs text-on-surface-variant flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[14px]">schedule</span> ~15 min</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-4">Strengthen your hash map skills.</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-[#3b28cc]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#3b28cc]">code</span>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full py-4 rounded-2xl border-2 border-primary text-primary font-bold text-base flex items-center justify-center gap-2 hover:bg-primary/5 transition-colors">
+  Open on LeetCode <span class="material-symbols-outlined">call_made</span>
+</button>
+</div>
+</div>
+<div class="neo-card p-6 bg-white/60 border border-white flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<p class="text-[10px] font-bold text-[#1a1a2e] tracking-widest uppercase">Revision Due</p>
+<span class="text-xs font-bold text-red-600">3 Problems</span>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex items-center justify-between pb-4 border-b border-gray-200">
+<div>
+<span class="text-sm font-semibold text-[#1a1a2e] block">Longest Substring Without Repeating Characters</span>
+<span class="text-[10px] text-gray-500 mt-1 block">7 days ago</span>
+</div>
+<span class="text-[10px] font-bold text-purple-600 bg-purple-100 px-2 py-1 rounded-md uppercase">Medium</span>
+</div>
+<div class="flex items-center justify-between pb-4 border-b border-gray-200">
+<div>
+<span class="text-sm font-semibold text-[#1a1a2e] block">Binary Search</span>
+<span class="text-[10px] text-gray-500 mt-1 block">14 days ago</span>
+</div>
+<span class="text-[10px] font-bold text-green-600 bg-green-100 px-2 py-1 rounded-md uppercase">Easy</span>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<span class="text-sm font-semibold text-[#1a1a2e] block">Group Anagrams</span>
+<span class="text-[10px] text-gray-500 mt-1 block">21 days ago</span>
+</div>
+<span class="text-[10px] font-bold text-green-600 bg-green-100 px-2 py-1 rounded-md uppercase">Easy</span>
+</div>
+</div>
+<div class="mt-6 flex justify-center">
+<button class="text-sm font-bold text-[#3b28cc] flex items-center gap-2 hover:underline">Review Now <span class="material-symbols-outlined text-[16px]">arrow_forward</span></button>
+</div>
+</div>
+</section>
+<!-- BOTTOM ROW -->
+<section class="grid grid-cols-12 gap-6 pb-6">
+<div class="col-span-12 neo-card p-8 bg-white/60 border border-white flex flex-col">
+  <div class="flex justify-between items-center mb-8">
+    <p class="text-[10px] font-bold text-primary tracking-widest uppercase">FOCUS AREAS</p>
+    <a href="#" class="text-xs font-bold text-primary hover:underline">View All</a>
+  </div>
+  
+  <div class="grid grid-cols-3 gap-8 flex-1">
+    <!-- Area 1: Recursion -->
+    <div class="space-y-3">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-lg font-bold text-on-surface">Recursion</span>
+        <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md">FOCUS</span>
+      </div>
+      <div class="text-3xl font-bold text-on-surface mb-2">42%</div>
+      <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-primary rounded-full" style="width: 42%"></div>
+      </div>
+      <p class="text-xs text-on-surface-variant font-medium">Keep practicing</p>
+    </div>
+
+    <!-- Area 2: Binary Search -->
+    <div class="space-y-3">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-lg font-bold text-on-surface">Binary Search</span>
+      </div>
+      <div class="text-3xl font-bold text-on-surface mb-2">56%</div>
+      <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-orange-500 rounded-full" style="width: 56%"></div>
+      </div>
+      <p class="text-xs text-on-surface-variant font-medium">Good progress</p>
+    </div>
+
+    <!-- Area 3: Sliding Window -->
+    <div class="space-y-3">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-lg font-bold text-on-surface">Sliding Window</span>
+      </div>
+      <div class="text-3xl font-bold text-on-surface mb-2">61%</div>
+      <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-green-500 rounded-full" style="width: 61%"></div>
+      </div>
+      <p class="text-xs text-on-surface-variant font-medium">Keep it up</p>
+    </div>
+  </div>
+</div>
+
+</section><section class="grid grid-cols-12 gap-6 pb-6">
+  <div class="col-span-12 neo-card p-6 bg-white/60 border border-white flex flex-col">
+    <div class="flex justify-between items-end mb-6">
+      <div>
+        <p class="text-[10px] font-bold text-primary tracking-widest uppercase mb-1">THIS WEEK</p>
+        <h4 class="text-lg font-bold text-on-surface">Week 4 · Aug 24–30</h4>
+      </div>
+      <div class="text-right">
+        <p class="text-xs font-bold text-on-surface-variant">3 / 7 days complete</p>
+      </div>
+    </div>
+
+    <div class="relative flex justify-between items-start">
+      <!-- Progress Line -->
+      <div class="absolute top-5 left-0 w-full h-px bg-outline-variant/30 z-0"></div>
+      <div class="absolute top-5 left-0 w-[33%] h-px bg-green-500 z-0"></div>
+
+      <!-- Mon -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full opacity-60">
+        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center border-2 border-white shadow-sm">
+          <span class="material-symbols-outlined text-green-600 text-sm font-bold">check</span>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Mon</p>
+          <p class="text-[11px] font-medium text-on-surface leading-tight">Arrays +<br>Hashing</p>
+        </div>
+      </div>
+
+      <!-- Tue -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full opacity-60">
+        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center border-2 border-white shadow-sm">
+          <span class="material-symbols-outlined text-green-600 text-sm font-bold">check</span>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Tue</p>
+          <p class="text-[11px] font-medium text-on-surface leading-tight">Two Pointers +<br>Sliding Window</p>
+        </div>
+      </div>
+
+      <!-- Wed (Today) -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full">
+        <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center border-2 border-white shadow-lg scale-110">
+          <span class="material-symbols-outlined text-white text-sm font-bold">bolt</span>
+        </div>
+        <div class="text-center">
+          <span class="text-[8px] font-bold text-white bg-green-600 px-1.5 py-0.5 rounded-full uppercase mb-1 inline-block">TODAY</span>
+          <p class="text-[10px] font-bold text-on-surface uppercase">Wed</p>
+          <p class="text-[11px] font-bold text-on-surface leading-tight">Binary Search +<br>Prefix Sum</p>
+        </div>
+      </div>
+
+      <!-- Thu -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full">
+        <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center border-2 border-white neo-button">
+          <div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Thu</p>
+          <p class="text-[11px] font-medium text-on-surface-variant leading-tight">Linked List +<br>Stack</p>
+        </div>
+      </div>
+
+      <!-- Fri -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full">
+        <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center border-2 border-white neo-button">
+          <div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Fri</p>
+          <p class="text-[11px] font-medium text-on-surface-variant leading-tight">Trees +<br>BST</p>
+        </div>
+      </div>
+
+      <!-- Sat -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full">
+        <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center border-2 border-white neo-button">
+          <div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Sat</p>
+          <p class="text-[11px] font-medium text-on-surface-variant leading-tight">Graphs</p>
+        </div>
+      </div>
+
+      <!-- Sun -->
+      <div class="relative z-10 flex flex-col items-center gap-3 w-full">
+        <div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center border-2 border-white neo-button">
+          <div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase">Sun</p>
+          <p class="text-[11px] font-medium text-on-surface-variant leading-tight">Mixed Interview<br>Practice</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FOOTER INSIGHT -->
+<div class="flex items-center justify-between py-4 px-6 rounded-2xl bg-white/60 border border-white mb-2 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#3b28cc]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#3b28cc] text-sm">emoji_objects</span>
+</div>
+<p class="text-sm font-medium text-gray-600">
+<strong class="text-[#3b28cc]">Today's Focus:</strong> Try identifying the pattern before thinking about optimization.
+                </p>
+</div>
+<span class="text-sm text-gray-500 font-medium flex items-center gap-2">You've got this! <span class="text-lg">💪</span></span>
+</div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+</body></html>

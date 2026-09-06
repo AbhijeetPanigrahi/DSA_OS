@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DSA OS - Settings Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#991b1b",
+                        "inverse-primary": "#a5b4fc",
+                        "error-container": "#fee2e2",
+                        "primary-fixed": "#e0e2ff",
+                        "surface": "#e8eaf0",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "secondary-fixed-dim": "#b8baca",
+                        "secondary": "#6c6e7e",
+                        "surface-container": "#e2e4ea",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "on-tertiary-fixed": "#2e1065",
+                        "surface-container-high": "#dcdee4",
+                        "on-surface": "#2e3040",
+                        "on-secondary-fixed": "#1a1b26",
+                        "surface-container-highest": "#d6d8de",
+                        "on-primary-container": "#e0e2ff",
+                        "primary-container": "#818cf8",
+                        "inverse-surface": "#2e3040",
+                        "on-secondary-fixed-variant": "#404252",
+                        "primary": "#6366f1",
+                        "error": "#dc2626",
+                        "on-surface-variant": "#585a68",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "tertiary-container": "#a78bfa",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#3b1f63",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#585a68",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-lowest": "#f0f2f8",
+                        "outline-variant": "#d0d2dc",
+                        "outline": "#8a8c9a",
+                        "on-background": "#2e3040",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d8dae6",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "background": "#e8eaf0",
+                        "secondary-container": "#d8dae6",
+                        "tertiary": "#7c3aed",
+                        "tertiary-fixed": "#ede9fe",
+                        "surface-bright": "#edeef4",
+                        "surface-container-low": "#e5e7ed",
+                        "surface-dim": "#d4d6dc",
+                        "surface-variant": "#dcdee4",
+                        "on-primary-fixed": "#1e1b4b",
+                        "surface-tint": "#6366f1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #e8eaf0;
+        }
+        .neo-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neo-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .neo-button:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+        
+        /* Custom scrollbar for inner content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #d0d2dc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased overflow-hidden h-screen w-screen flex items-center justify-center">
+<!-- Background Dashboard (Dimmed Overlay) -->
+<div class="fixed inset-0 z-0">
+<!-- Render a simplified shell for context using SCREEN_23 placeholder -->
+<img class="w-full h-full object-cover filter blur-sm opacity-50" data-alt="The underlying DSA OS dashboard screen, blurred and dimmed, acting as the background context for the settings modal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF9uGOPDVtlSIULP8YvW3B4mSB4k1s_qe8b71yNMDiIW3TrObVkJC5zewa0NzxFTfcZNHSxWzQlUElKRviV-3inGx8_TsoLdT4tNPN_2Q0uq-J-4NzpkrMhAHBLRXzd5qG4pxhnsLI2J5grWQzAEEqO1m-4WayRK_6_vk4ZOeF8zZVkPDfm-ZQHdaReU9PmFCFrO_Tcp-tvCiG7J9UCk5_CbIS9lT9I_EosrLv7g_s6KgljUUwT_H4"/>
+<div class="absolute inset-0 bg-surface/70 backdrop-blur-sm"></div>
+</div>
+<!-- Modal Container -->
+<div class="relative z-10 w-[850px] h-[700px] bg-surface rounded-2xl neo-raised flex flex-col overflow-hidden">
+<!-- Modal Header -->
+<div class="flex-shrink-0 px-8 py-6 border-b border-surface-variant flex justify-between items-start">
+<div>
+<h1 class="font-display text-2xl font-semibold text-on-surface tracking-tight">SETTINGS</h1>
+<p class="font-body text-sm text-on-surface-variant mt-1">Customize how DSA OS works for you.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface rounded-full neo-raised neo-button text-on-surface-variant hover:text-on-surface transition-all">
+<span class="material-symbols-outlined text-lg">close</span>
+<span class="font-medium text-sm">Close</span>
+</button>
+</div>
+<!-- Modal Body (Two Column Layout) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Navigation (Settings Tabs) -->
+<div class="w-64 flex-shrink-0 bg-surface border-r border-surface-variant overflow-y-auto p-6 space-y-2">
+<!-- Profile (Active) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl neo-inset text-primary font-semibold">
+<span class="material-symbols-outlined">person</span>
+                    Profile
+                </button>
+<!-- Practice (Inactive) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface hover:neo-raised transition-all">
+<span class="material-symbols-outlined">code</span>
+                    Practice
+                </button>
+<!-- Revision (Inactive) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface hover:neo-raised transition-all">
+<span class="material-symbols-outlined">history</span>
+                    Revision
+                </button>
+<!-- Notifications (Inactive) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface hover:neo-raised transition-all">
+<span class="material-symbols-outlined">notifications</span>
+                    Notifications
+                </button>
+<!-- Appearance (Inactive) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface hover:neo-raised transition-all">
+<span class="material-symbols-outlined">palette</span>
+                    Appearance
+                </button>
+<!-- Account & Data (Inactive) -->
+<button class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface hover:neo-raised transition-all">
+<span class="material-symbols-outlined">manage_accounts</span>
+                    Account &amp; Data
+                </button>
+</div>
+<!-- Right Content Area (Active Tab Content: Profile) -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-8">
+<!-- Profile Picture Section -->
+<div class="mb-10 flex items-center gap-6">
+<div class="w-24 h-24 rounded-full bg-surface neo-inset p-2 flex items-center justify-center">
+<img class="w-full h-full rounded-full object-cover" data-alt="A small circular profile picture avatar of a male user." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYday-b0J8Ydqlq9rtlsQIrRO4x60gJ5p9JcMpPfa0_7OTSQ1_m-iQEScwULdQL3urPl1ZyX8lxun1witrZDo7ixxwhc5Sq8HvQcFQ0pYk77IuLIMpxwad3YLUFcXak6deaL1SQjCxTMQcvAJy3H2duBU1zHxnS0l8mlqR7orwy7KHf0RHXvuoQsYplfrE22TDHscj3JWJ7oX5k5BWI1kKoNpPFXhLNS9-x19zPCMFfLc7vShMjQ1S"/>
+</div>
+<div>
+<button class="px-5 py-2.5 bg-surface rounded-lg neo-raised neo-button text-primary font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+                            Change Picture
+                        </button>
+<p class="text-xs text-on-surface-variant mt-3">JPG, GIF or PNG. Max size of 800K</p>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="space-y-6">
+<!-- Name -->
+<div>
+<label class="block text-sm font-medium text-on-surface mb-2">Full Name</label>
+<div class="relative">
+<input class="w-full bg-surface border-none rounded-xl py-3 px-4 text-on-surface placeholder-on-surface-variant focus:ring-0 neo-inset" type="text" value="Abhijeet"/>
+</div>
+</div>
+<!-- Email -->
+<div>
+<label class="block text-sm font-medium text-on-surface mb-2">Email Address</label>
+<div class="relative">
+<input class="w-full bg-surface border-none rounded-xl py-3 px-4 text-on-surface placeholder-on-surface-variant focus:ring-0 neo-inset text-on-surface-variant" readonly="" type="email" value="user@example.com"/>
+<div class="absolute right-3 top-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mt-2">Email changes require re-verification.</p>
+</div>
+<!-- Timezone -->
+<div>
+<label class="block text-sm font-medium text-on-surface mb-2">Timezone</label>
+<div class="relative">
+<select class="w-full bg-surface border-none rounded-xl py-3 px-4 text-on-surface focus:ring-0 neo-inset appearance-none">
+<option>(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+<option>(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+<option selected="">(GMT+05:30) Indian Standard Time (IST)</option>
+<option>(GMT+00:00) Greenwich Mean Time</option>
+</select>
+<div class="absolute right-4 top-3.5 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mt-2">Used for daily resets and reminders.</p>
+</div>
+</div>
+<!-- Save Actions -->
+<div class="mt-12 flex justify-end gap-4 border-t border-surface-variant pt-6">
+<button class="px-6 py-2.5 bg-surface rounded-xl neo-raised neo-button text-on-surface-variant font-medium text-sm">
+                        Cancel
+                    </button>
+<button class="px-6 py-2.5 bg-primary rounded-xl shadow-[4px_4px_10px_rgba(99,102,241,0.3)] hover:bg-indigo-600 active:scale-95 transition-all text-white font-medium text-sm">
+                        Save Changes
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

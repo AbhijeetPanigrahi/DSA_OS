@@ -1,0 +1,391 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>DSA OS - Problem Workspace</title>
+<!-- Material Symbols for Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with custom configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#e8eaf0",
+                        "on-background": "#2e3040",
+                        "on-secondary-container": "#585a68",
+                        "on-surface-variant": "#585a68",
+                        "outline": "#8a8c9a",
+                        "error": "#dc2626",
+                        "secondary-container": "#d8dae6",
+                        "inverse-primary": "#a5b4fc",
+                        "on-surface": "#2e3040",
+                        "secondary": "#6c6e7e",
+                        "surface-container-high": "#dcdee4",
+                        "on-tertiary-container": "#3b1f63",
+                        "surface-container-lowest": "#f0f2f8",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#e0e2ff",
+                        "on-error-container": "#991b1b",
+                        "tertiary-container": "#a78bfa",
+                        "inverse-surface": "#2e3040",
+                        "on-tertiary-fixed": "#2e1065",
+                        "secondary-fixed": "#d8dae6",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#e5e7ed",
+                        "outline-variant": "#d0d2dc",
+                        "inverse-on-surface": "#e8eaf0",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "on-secondary-fixed": "#1a1b26",
+                        "secondary-fixed-dim": "#b8baca",
+                        "tertiary-fixed": "#ede9fe",
+                        "error-container": "#fee2e2",
+                        "tertiary": "#7c3aed",
+                        "surface-container-highest": "#d6d8de",
+                        "primary": "#6366f1",
+                        "surface": "#e8eaf0",
+                        "surface-container": "#e2e4ea",
+                        "surface-bright": "#edeef4",
+                        "surface-variant": "#dcdee4",
+                        "surface-tint": "#6366f1",
+                        "on-primary-fixed": "#1e1b4b",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "surface-dim": "#d4d6dc",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "primary-container": "#818cf8",
+                        "on-secondary-fixed-variant": "#404252",
+                        "on-primary-container": "#e0e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"],
+                        "label": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'neomorphic-raised': '6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6)',
+                        'neomorphic-pressed': 'inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5)',
+                        'neomorphic-hover': '4px 4px 8px rgba(0,0,0,0.04), -4px -4px 8px rgba(255,255,255,0.4)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            font-family: theme('fontFamily.body');
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- Persistent Sidebar -->
+<!-- Applying SideNavBar component logic and styles -->
+<!-- Suppressing sidebar for linear/transactional or task-focused intent? No, wait. 
+         The prompt explicitly says: "Persistent Sidebar on the left (from {{DATA:COMPONENTS:COMPONENTS_12}})."
+         Even if it's a specific problem view, user requested the sidebar. Active tab: "Problems" -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col p-6 space-y-2 bg-surface dark:bg-surface h-screen w-72 flex-shrink-0 z-10 border-r-0">
+<!-- Brand Header -->
+<div class="mb-8 px-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl shadow-neomorphic-raised flex items-center justify-center bg-surface text-primary">
+<span class="material-symbols-outlined" data-weight="fill">terminal</span>
+</div>
+<div>
+<h1 class="font-display text-xl font-semibold text-primary dark:text-primary tracking-tight">DSA OS</h1>
+<p class="text-xs text-on-surface-variant">Mission Control</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-2 overflow-y-auto pr-2 pb-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body font-medium text-sm">Dashboard</span>
+</a>
+<!-- Active State: Problems -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary font-semibold active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-weight="fill">code</span>
+<span class="font-body text-sm">Problems</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">schema</span>
+<span class="font-body font-medium text-sm">Patterns</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-body font-medium text-sm">Journal</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body font-medium text-sm">Revision</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body font-medium text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body font-medium text-sm">Interview Mode</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-body font-medium text-sm">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-body font-medium text-sm">Weekly Plan</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body font-medium text-sm">Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-on-surface transition-all duration-200 hover:shadow-[4px_4px_8px_rgba(0,0,0,0.04),-4px_-4px_8px_rgba(255,255,255,0.4)] active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body font-medium text-sm">Settings</span>
+</a>
+</nav>
+<!-- User Profile Stub -->
+<div class="mt-auto pt-4 border-t border-surface-variant/50">
+<div class="flex items-center gap-3 px-4 py-2 rounded-xl shadow-neomorphic-raised bg-surface">
+<div class="w-8 h-8 rounded-full overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A small circular avatar placeholder image showing a subtle gradient or abstract pattern in soft, light neomorphic UI colors, blending seamlessly with a cool gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuiw3fJ_JAJJvhV3yc-v3TNNJX-K1veGeaX7KqcJ6B60Vrugd9aoHd2gieVnw8SeZTppR8UxSAOJsuF4Ada36n4OJA8LPipCba9zIU0XHYne1u9jX7qGiSybP6etGoltJBS60seLisb6EQ-IPebyfilXFJz0KLrUWlvpAXIYbxM6dYl3lCtBGYIiNmde694VYbWE1CmU6RmOtofqDiYNx11t2ieez6k6Mlrr4spg_vFTj-LnyJfFgX">
+</div>
+<span class="font-body text-sm font-medium text-on-surface">Alex Coder</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-72 flex flex-col h-screen overflow-y-auto bg-background">
+<!-- Header -->
+<header class="w-full px-12 py-8 flex justify-between items-center z-10 sticky top-0 bg-background/80 backdrop-blur-md">
+<!-- Left: Back link and Title -->
+<div class="flex items-center">
+
+<div>
+<h2 class="font-headline text-2xl font-semibold text-on-surface tracking-tight">Two Sum</h2>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs font-medium text-primary px-3 py-1 rounded-full shadow-neomorphic-pressed bg-surface">Easy</span>
+<span class="text-xs text-on-surface-variant">· ~15 min</span>
+</div>
+</div>
+</div>
+<!-- Right side: Timer -->
+<div class="flex items-center gap-3 bg-surface px-5 py-2.5 rounded-full shadow-neomorphic-pressed">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">timer</span>
+<span class="font-display font-medium text-on-surface-variant text-sm tracking-wider">15 min target</span>
+</div>
+</header>
+<!-- Focused Content Column -->
+<div class="flex-1 max-w-5xl w-full mx-auto px-8 pb-24 flex flex-col gap-10 mt-6">
+<!-- Bento Grid Layout for Preparation -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+<!-- Checklist / Prompts Card -->
+<div class="bg-surface rounded-[2rem] p-8 shadow-neomorphic-raised flex flex-col h-full">
+<h4 class="font-headline font-semibold text-lg text-on-surface mb-6 flex items-center gap-2 uppercase tracking-wider text-sm">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+                        Before You Code
+                    </h4>
+<ul class="space-y-4 flex-1">
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all">
+<!-- Check mark hidden by default, could be toggled via JS -->
+</div>
+<span class="text-sm font-medium text-on-surface-variant">Can I explain the problem in my own words?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">What is the brute-force approach?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">What is its time complexity?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">What am I repeatedly searching for?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">Can I eliminate repeated work?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">Is there a useful data structure?</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 w-5 h-5 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0 cursor-pointer hover:shadow-neomorphic-hover transition-all"></div>
+<span class="text-sm font-medium text-on-surface-variant">What are the important edge cases?</span>
+</li>
+</ul>
+</div>
+<!-- Writing Area Card -->
+<div class="bg-surface rounded-[2rem] p-8 shadow-neomorphic-raised flex flex-col relative overflow-hidden h-full">
+<h4 class="font-headline font-semibold text-lg text-on-surface mb-6 flex items-center gap-2 relative z-10 uppercase tracking-wider text-sm">
+<span class="material-symbols-outlined text-tertiary">edit</span>
+                        My Initial Approach
+                    </h4>
+<div class="flex-1 relative z-10">
+<!-- Neomorphic Text Area -->
+<div class="w-full h-full min-h-[300px] p-6 rounded-2xl shadow-neomorphic-pressed bg-surface">
+<textarea class="w-full h-full bg-transparent border-none outline-none resize-none text-on-surface placeholder-on-surface-variant/50 font-body text-base leading-relaxed focus:ring-0 p-0" placeholder="Describe your first approach..."></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Main CTA -->
+<div class="flex flex-col items-center justify-center pt-8 pb-4">
+<button class="group flex items-center gap-3 px-10 py-5 rounded-full bg-surface shadow-neomorphic-raised active:shadow-neomorphic-pressed hover:shadow-neomorphic-hover transition-all duration-200">
+<span class="font-headline font-bold text-xl text-green-600 tracking-wide">Open on LeetCode</span>
+<span class="material-symbols-outlined text-green-600 text-[22px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">open_in_new</span>
+</button>
+<p class="mt-5 text-on-surface-variant font-medium text-sm">Solve the problem on LeetCode, then return here to record your result.</p>
+</div>
+<!-- Post-Solve Section -->
+<div class="bg-surface rounded-[2rem] p-8 shadow-neomorphic-pressed flex flex-col border border-surface-variant/20 mt-4">
+<h3 class="font-headline font-bold text-xl text-on-surface mb-8 flex items-center gap-2 uppercase tracking-wider text-sm border-b border-surface-variant/30 pb-4">
+<span class="material-symbols-outlined text-secondary">flag</span> AFTER YOU SOLVE
+            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Performance Radios -->
+<div>
+<h4 class="font-headline font-semibold text-base text-on-surface mb-5">How did you perform?</h4>
+<div class="space-y-4">
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-full shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="performance" type="radio">
+<div class="w-3 h-3 rounded-full bg-green-500 opacity-0 peer-checked:opacity-100 transition-opacity shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]"></div>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Solved independently</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-full shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="performance" type="radio">
+<div class="w-3 h-3 rounded-full bg-green-500 opacity-0 peer-checked:opacity-100 transition-opacity shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]"></div>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Solved with a hint</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-full shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="performance" type="radio">
+<div class="w-3 h-3 rounded-full bg-green-500 opacity-0 peer-checked:opacity-100 transition-opacity shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]"></div>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Found the approach but couldn't implement</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-full shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="performance" type="radio">
+<div class="w-3 h-3 rounded-full bg-green-500 opacity-0 peer-checked:opacity-100 transition-opacity shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]"></div>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Needed to see the solution</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-full shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="performance" type="radio">
+<div class="w-3 h-3 rounded-full bg-green-500 opacity-0 peer-checked:opacity-100 transition-opacity shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]"></div>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Couldn't solve</span>
+</label>
+</div>
+</div>
+<!-- Struggle Checkboxes -->
+<div>
+<h4 class="font-headline font-semibold text-base text-on-surface mb-5">Where did you struggle?</h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Understanding the problem</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Finding the approach</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Pattern recognition</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Implementation</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Optimization</span>
+</label>
+<label class="flex items-center gap-4 cursor-pointer group">
+<div class="relative w-6 h-6 rounded-md shadow-neomorphic-pressed bg-surface flex items-center justify-center shrink-0">
+<input class="peer sr-only" name="struggle" type="checkbox">
+<span class="material-symbols-outlined text-[18px] text-green-500 opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-on-surface font-medium transition-colors text-sm">Edge case</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Next Steps Link -->
+<div class="flex flex-col items-center justify-center pt-8 mt-4 border-t border-surface-variant/20">
+<a class="group flex items-center gap-3 px-8 py-4 rounded-full bg-surface shadow-neomorphic-raised active:shadow-neomorphic-pressed hover:shadow-neomorphic-hover transition-all duration-200" href="#">
+<span class="font-headline font-semibold text-lg text-primary tracking-wide">Create Pattern Journal Entry</span>
+<span class="material-symbols-outlined text-primary transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+<p class="mt-4 text-on-surface-variant font-medium text-sm">Capture the key lesson from this problem.</p>
+</div>
+</div>
+</main>
+
+
+</body></html>
