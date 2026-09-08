@@ -1,4 +1,5 @@
-import { Flame } from "lucide-react";
+import { Flame, LogOut } from "lucide-react";
+import { logoutAction } from "@/features/auth/actions";
 
 interface HeaderProps {
   displayName?: string;
@@ -20,6 +21,18 @@ export function Header({ displayName = "Learner", streakDays = 0 }: HeaderProps)
           <Flame className="w-4 h-4 fill-orange-500 text-orange-500" />
           <span>{streakDays} DAY STREAK</span>
         </div>
+
+        {/* Logout Action */}
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            title="Sign out of DSA OS"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-dsa-border bg-canvas-surface hover:bg-dsa-border/40 text-dsa-text font-medium text-xs transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5 text-dsa-muted" />
+            <span>Sign Out</span>
+          </button>
+        </form>
       </div>
     </header>
   );

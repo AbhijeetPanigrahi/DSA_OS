@@ -6,9 +6,10 @@ import { Header } from "./Header";
 
 interface AppShellProps {
   children: React.ReactNode;
+  displayName?: string;
 }
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({ children, displayName = "Learner" }: AppShellProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
@@ -16,7 +17,7 @@ export function AppShell({ children }: AppShellProps) {
       <Sidebar onOpenSettings={() => setIsSettingsOpen(true)} />
       
       <div className="flex-1 flex flex-col min-w-0">
-        <Header displayName="Learner" streakDays={0} />
+        <Header displayName={displayName} streakDays={0} />
         <main className="flex-1 p-8 max-w-7xl w-full mx-auto">
           {children}
         </main>
