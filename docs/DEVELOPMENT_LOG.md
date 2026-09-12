@@ -379,5 +379,110 @@ For every implementation, feature, bug fix, refactor, or configuration change co
   - `npm run build`: PASSED (Compiled static & dynamic routes cleanly).
 * **Final Outcome:** Phase 3 Live Supabase Database Setup 100% completed, verified, and audited.
 
+---
+
+## Phase 4 — Database Access Layer
+
+### Entry 4.1 — Low-Level Queries, Low-Level Mutations, Domain Repositories, Transaction Infrastructure & Error Hierarchy
+* **Date / Time:** 2026-09-13
+* **Phase:** Phase 4 — Database Access Layer
+* **Change Title:** Application Data Layer: Queries, Mutations, Repositories, Transaction Helper, Error Translator & Vitest Suite
+* **What Changed:**
+  - **Error Hierarchy & Translation ([src/lib/errors/index.ts](file:///d:/DSA_OS/src/lib/errors/index.ts)):**
+    - Created domain error classes: `AppError`, `DatabaseError`, `NotFoundError`, `ConflictError`, `UnauthorizedError`, `ForbiddenError`, `ValidationError`.
+    - Implemented `handleDatabaseError` mapping PostgreSQL codes (`23505` unique violation → `ConflictError`, `23503` foreign key violation → `NotFoundError`, `23514`/`23502` check/not-null violation → `ValidationError`).
+  - **Transaction Infrastructure ([src/db/transaction.ts](file:///d:/DSA_OS/src/db/transaction.ts)):**
+    - Defined `DbOrTx` type union (`DrizzleDb | DrizzleTx`) allowing queries, mutations, and repositories to operate standalone or composed in transactions.
+    - Implemented `withTransaction` helper managing transaction execution, automatic rollback, error translation, and context nesting.
+  - **Low-Level Typed Query Modules (`src/db/queries/`):**
+    - [curriculum.ts](file:///d:/DSA_OS/src/db/queries/curriculum.ts): `getProblems`, `getProblemById`, `getProblemBySlug`, `getProblemWithRelations`, `getPatterns`, `getPatternById`, `getPatternBySlug`, `getTopics`, `getTopicById`, `getMistakes`, `getMistakeByCode`, `getActiveWeeklyCurriculum`, `getWeeklyCurriculumByDay`.
+    - [user.ts](file:///d:/DSA_OS/src/db/queries/user.ts): `getProfileById`, `getUserSettings`.
+    - [attempts.ts](file:///d:/DSA_OS/src/db/queries/attempts.ts): `getAttemptsByUserId`, `getAttemptById`, `getAttemptWithMistakes`, `getDistinctSolvedProblemCount`.
+    - [journal.ts](file:///d:/DSA_OS/src/db/queries/journal.ts): `getJournalEntriesByUserId`, `getJournalEntryById`, `getJournalEntryByProblem`, `getJournalEntryWithDetails`.
+    - [revisions.ts](file:///d:/DSA_OS/src/db/queries/revisions.ts): `getRevisionsByUserId`, `getRevisionById`, `getRevisionByProblem`, `getDueRevisions`, `getRevisionAttempts`.
+    - [scheduling.ts](file:///d:/DSA_OS/src/db/queries/scheduling.ts): `getDailyTasks`, `getDailyTaskById`, `getDailyActivity`, `getDailyActivityRange`, `getContestParticipations`, `getContestParticipationByDate`.
+    - [index.ts](file:///d:/DSA_OS/src/db/queries/index.ts): Central query module re-export.
+  - **Low-Level Typed Mutation Modules (`src/db/mutations/`):**
+    - [curriculum.ts](file:///d:/DSA_OS/src/db/mutations/curriculum.ts): `insertProblem`, `insertPattern`, `insertTopic`, `insertMistake`, `linkProblemPattern`, `linkProblemTopic`.
+    - [user.ts](file:///d:/DSA_OS/src/db/mutations/user.ts): `upsertProfile`, `updateProfile`, `upsertUserSettings`, `updateUserSettings`.
+    - [attempts.ts](file:///d:/DSA_OS/src/db/mutations/attempts.ts): `insertAttempt`, `insertAttemptMistakes`.
+    - [journal.ts](file:///d:/DSA_OS/src/db/mutations/journal.ts): `insertJournalEntry`, `updateJournalEntry`, `upsertJournalEntry`.
+    - [revisions.ts](file:///d:/DSA_OS/src/db/mutations/revisions.ts): `insertRevision`, `updateRevision`, `upsertRevision`, `insertRevisionAttempt`.
+    - [scheduling.ts](file:///d:/DSA_OS/src/db/mutations/scheduling.ts): `insertDailyTasks`, `updateDailyTaskStatus`, `upsertDailyActivity`, `incrementDailyActivityCounters`, `insertContestParticipation`.
+    - [index.ts](file:///d:/DSA_OS/src/db/mutations/index.ts): Central mutation module re-export.
+  - **Domain-Oriented Repositories (`src/db/repositories/`):**
+    - [problem-repository.ts](file:///d:/DSA_OS/src/db/repositories/problem-repository.ts) (`ProblemRepository`): High-level problem details resolution (UUID or slug), curriculum catalog aggregator, and filtered problem listings.
+    - [user-repository.ts](file:///d:/DSA_OS/src/db/repositories/user-repository.ts) (`UserRepository`): Combined user context retrieval, atomic profile + default settings initialization.
+    - [attempt-repository.ts](file:///d:/DSA_OS/src/db/repositories/attempt-repository.ts) (`AttemptRepository`): Atomic attempt recording with mistake associations within a transaction, history retrieval, distinct solved count.
+    - [journal-repository.ts](file:///d:/DSA_OS/src/db/repositories/journal-repository.ts) (`JournalRepository`): Pattern Journal upsert ensuring single-canonical-entry invariant, problem journal lookup, detailed entry listings.
+    - [revision-repository.ts](file:///d:/DSA_OS/src/db/repositories/revision-repository.ts) (`RevisionRepository`): Atomic review attempt recording (inserting immutable `revision_attempts` history + updating `revisions` schedule state in one transaction), due revision retrieval.
+    - [scheduling-repository.ts](file:///d:/DSA_OS/src/db/repositories/scheduling-repository.ts) (`SchedulingRepository`): Daily task batch assignment, atomic task completion + daily activity counter increment, contest event logging.
+    - [index.ts](file:///d:/DSA_OS/src/db/repositories/index.ts): Central repository re-export.
+  - **Database Root Index ([src/db/index.ts](file:///d:/DSA_OS/src/db/index.ts)):**
+    - Clean top-level re-export for client, transaction, schema, queries, mutations, and repositories.
+  - **Vitest Unit Test Suite:**
+    - [tests/unit/db/errors-transactions.test.ts](file:///d:/DSA_OS/tests/unit/db/errors-transactions.test.ts): Verified 9 tests for error classes, status codes, PostgreSQL error mapping, and transaction nesting.
+    - [tests/unit/db/queries-mutations.test.ts](file:///d:/DSA_OS/tests/unit/db/queries-mutations.test.ts): Verified 12 tests for queries and mutations.
+    - [tests/unit/db/repositories.test.ts](file:///d:/DSA_OS/tests/unit/db/repositories.test.ts): Verified 12 tests for repository methods and atomic transactions.
+* **Why It Changed:**
+  - Build the complete, server-authoritative Data Access Layer specified in `DSA_OS_IMPLEMENTATION_PLAN.md` (§ 12) and `DSA_OS_TECHNICAL_ARCHITECTURE.md` (§ 161–165), strictly isolating SQL operations, domain aggregates, and ownership boundaries.
+* **Files Created:**
+  - `src/lib/errors/index.ts`
+  - `src/db/transaction.ts`
+  - `src/db/queries/curriculum.ts`, `src/db/queries/user.ts`, `src/db/queries/attempts.ts`, `src/db/queries/journal.ts`, `src/db/queries/revisions.ts`, `src/db/queries/scheduling.ts`, `src/db/queries/index.ts`
+  - `src/db/mutations/curriculum.ts`, `src/db/mutations/user.ts`, `src/db/mutations/attempts.ts`, `src/db/mutations/journal.ts`, `src/db/mutations/revisions.ts`, `src/db/mutations/scheduling.ts`, `src/db/mutations/index.ts`
+  - `src/db/repositories/problem-repository.ts`, `src/db/repositories/user-repository.ts`, `src/db/repositories/attempt-repository.ts`, `src/db/repositories/journal-repository.ts`, `src/db/repositories/revision-repository.ts`, `src/db/repositories/scheduling-repository.ts`, `src/db/repositories/index.ts`
+  - `src/db/index.ts`
+  - `tests/unit/db/errors-transactions.test.ts`, `tests/unit/db/queries-mutations.test.ts`, `tests/unit/db/repositories.test.ts`
+* **Files Modified:**
+  - [docs/DEVELOPMENT_LOG.md](file:///d:/DSA_OS/docs/DEVELOPMENT_LOG.md)
+* **Architecture Decisions:**
+  - **Three distinct layers:** Low-level Queries (reads), Low-level Mutations (writes), and Repositories (cohesive domain aggregates and atomic transactions).
+  - **Explicit ownership scoping:** Every user-scoped query/mutation explicitly filters on `userId` to guarantee isolation when using direct Drizzle connection pools.
+  - **Transaction composability:** Every query, mutation, and repository accepts `client?: DbOrTx`.
+* **Testing & Verification:**
+  - `npm run typecheck`: PASSED (0 errors).
+  - `npm run test`: PASSED (6 test files, 49/49 unit tests passed).
+  - `npm run build`: PASSED (Static & dynamic routes compiled cleanly).
+* **Final Outcome:** Phase 4 Database Access Layer fully implemented, verified, and audited.
+
+---
+
+### Phase 4 Summary
+* **Objective:** Create a typed, server-authoritative, predictable Database Access Layer with distinct query modules, mutation modules, domain repositories, composable transactions, and standardized error handling.
+* **Major Work Completed:** Created error hierarchy, transaction helper (`withTransaction`), 6 query modules, 6 mutation modules, 6 domain repositories, index exports, and 33 new Vitest unit tests (49 total across project).
+* **Important Decisions:** Distinguished queries (low-level reads), mutations (low-level writes), and repositories (domain aggregates and compound transactions). Explicitly enforced user ownership filters across all user queries and mutations.
+* **Files Affected:** 24 files created across `src/lib/errors/`, `src/db/`, and `tests/unit/db/`.
+* **Tests / Verification:** `typecheck` passed (0 errors), 49/49 Vitest unit tests passed, Next.js production `build` passed.
+* **Problems Encountered & Fixed:** Aligned relation names in `curriculum.ts` and exact column names (`activityDate`, `nextReviewAt`, `recallResult`, `whatToRemember`) across queries, mutations, repositories, and tests.
+* **Final Status:** Phase 4 Database Access Layer complete, audited, and fully verified. Ready for Phase 5.
+
+---
+
+### Entry 4.2 — Phase 4 Strict Data Access Audit & File Reconciliation
+* **Date / Time:** 2026-09-13
+* **Phase:** Phase 4 Audit
+* **Change Title:** Strict Phase 4 Data Access Audit, Ownership Verification & Reconciled File Count
+* **What Changed:**
+  - Conducted strict 15-point Phase 4 audit against `DSA_OS_IMPLEMENTATION_PLAN.md` (§ 12), `DSA_OS_TECHNICAL_ARCHITECTURE.md` (§ 161–165), and current repository state.
+  - **File Count Reconciliation:** Reconciled report to exact file totals: **27 new untracked files** + **1 modified file** (`docs/DEVELOPMENT_LOG.md`) = **28 total files**.
+  - **Ownership Scoping Audit:** Verified explicit `userId` parameter scoping across all user-owned query and mutation modules (`attempts`, `attempt_mistakes`, `journal_entries`, `revisions`, `revision_attempts`, `daily_tasks`, `daily_activity`, `contest_participations`, `profiles`, `user_settings`).
+  - **Ownership-Verified Mistake Association:** Enhanced `AttemptRepository.addMistakesToAttempt` with explicit target attempt ownership verification (`getAttemptById(userId, attemptId)` check) before associating mistake categories.
+  - **Pagination Bounding:** Added safe upper bounds (`Math.min(limit, 100)`) and non-negative offset bounds across query functions (`attempts`, `journal`, `revisions`, `scheduling`).
+  - **Historical Event Immutability:** Verified `attempts`, `revision_attempts`, and `contest_participations` are strictly append-only (no update or delete mutations present).
+  - **Database Constraints & Idempotency:** Verified PostgreSQL unique constraints match Drizzle `onConflictDoUpdate` targets:
+    - `journal_entries`: `(user_id, problem_id)` single-journal-per-problem invariant.
+    - `revisions`: `(user_id, problem_id)` single-active-revision-per-problem invariant.
+    - `daily_activity`: `(user_id, activity_date)` atomic counters increment.
+  - **Unit Test Suite Expansion:** Added real transaction failure/rollback tests and ownership isolation tests in `tests/unit/db/errors-transactions.test.ts` (55 total tests passing across project).
+* **Testing & Verification:**
+  - `npm run typecheck`: PASSED (0 errors).
+  - `npm run test`: PASSED (6 test files, 55/55 unit tests passed).
+  - `npm run build`: PASSED (Compiled Next.js static/dynamic routes cleanly).
+  - `git status` / `git diff`: Verified no secrets or `.env.local` files present.
+* **Final Outcome:** Phase 4 Database Access Layer 100% audited, complete, and **READY FOR COMMIT**.
+
+
+
 
 
