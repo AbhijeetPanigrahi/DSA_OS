@@ -482,6 +482,83 @@ For every implementation, feature, bug fix, refactor, or configuration change co
   - `git status` / `git diff`: Verified no secrets or `.env.local` files present.
 * **Final Outcome:** Phase 4 Database Access Layer 100% audited, complete, and **READY FOR COMMIT**.
 
+---
+
+## Phase 5 — Domain Type System, Runtime Validation & Application Services
+
+### Entry 5.1 — Domain Type System, Runtime Validation Schemas & Application Services
+* **Date / Time:** 2026-09-18
+* **Phase:** Phase 5 — Domain / Application Services
+* **Change Title:** Domain Type System, Zod Runtime Validation Schemas, Application Services & Unit Suite
+* **What Changed:**
+  - Implemented the complete Domain/Application Services Layer across 5 domain aggregates under `src/domain/`:
+    - **Curriculum Domain (`src/domain/curriculum/`):**
+      - [types.ts](file:///d:/DSA_OS/src/domain/curriculum/types.ts): Canonical enums `DIFFICULTIES`, `PLATFORMS`, `MISTAKE_CODES` and types.
+      - [validation.ts](file:///d:/DSA_OS/src/domain/curriculum/validation.ts): Zod schemas `difficultySchema`, `platformSchema`, `mistakeCodeSchema`, `problemFilterSchema`.
+      - [index.ts](file:///d:/DSA_OS/src/domain/curriculum/index.ts): Domain exports.
+    - **Attempts Domain (`src/domain/attempts/`):**
+      - [types.ts](file:///d:/DSA_OS/src/domain/attempts/types.ts): Canonical enums `ATTEMPT_OUTCOMES` (`independent`, `hint`, `approach`, `solution`, `failed`), `RecordAttemptInput`, `AttemptFilterOptions`.
+      - [validation.ts](file:///d:/DSA_OS/src/domain/attempts/validation.ts): `recordAttemptSchema` with `superRefine` enforcing strict outcome consistency invariants (e.g., `independent` cannot have `sawSolution = true`, `hint` cannot have `sawSolution = true`, `approach` cannot have `sawSolution = true`), and authoritative `deriveAttemptFlags` helper.
+      - [service.ts](file:///d:/DSA_OS/src/domain/attempts/service.ts) (`AttemptService`): `recordAttempt` (with Zod validation, flag derivation, mistake code resolution, and atomic transaction persistence), `getAttemptDetails` (with user ownership enforcement), `getUserAttempts`, `getDistinctSolvedCount` (for analytics threshold checking).
+      - [index.ts](file:///d:/DSA_OS/src/domain/attempts/index.ts): Domain exports.
+    - **Journal Domain (`src/domain/journal/`):**
+      - [types.ts](file:///d:/DSA_OS/src/domain/journal/types.ts): `PATTERN_RECOGNITIONS` (`independent`, `after_hint`, `not_recognized`), `SaveJournalInput`, `JournalFilterOptions`.
+      - [validation.ts](file:///d:/DSA_OS/src/domain/journal/validation.ts): `saveJournalSchema` with trimmed non-empty `whatToRemember` requirement and UUID validation.
+      - [service.ts](file:///d:/DSA_OS/src/domain/journal/service.ts) (`JournalService`): `saveJournalEntry` (with cross-entity validation verifying attempt ownership and matching problem ID when `attemptId` is provided), `getJournalForProblem`, `getJournalDetails` (with ownership check), `listUserJournal`.
+      - [index.ts](file:///d:/DSA_OS/src/domain/journal/index.ts): Domain exports.
+    - **Revisions Domain (`src/domain/revisions/`):**
+      - [types.ts](file:///d:/DSA_OS/src/domain/revisions/types.ts): `RECALL_RESULTS` (`easy`, `partial`, `forgot`), `REVISION_STATUSES` (`active`, `paused`), `RecordReviewInput`, `InitialRevisionScheduleInput`, `RevisionFilterOptions`.
+      - [validation.ts](file:///d:/DSA_OS/src/domain/revisions/validation.ts): `recordReviewSchema`, `initialRevisionScheduleSchema`.
+      - [service.ts](file:///d:/DSA_OS/src/domain/revisions/service.ts) (`RevisionService`): `recordReview` (atomically logging immutable review attempt history and updating schedule state), `scheduleInitialRevision`, `getDueRevisions`, `getRevisionHistory`, `getRevisionForProblem`, `listUserRevisions`.
+      - [index.ts](file:///d:/DSA_OS/src/domain/revisions/index.ts): Domain exports.
+    - **Scheduling Domain (`src/domain/scheduling/`):**
+      - [types.ts](file:///d:/DSA_OS/src/domain/scheduling/types.ts): `TASK_TYPES` (`new_problem`, `revision`, `contest`), `TASK_STATUSES` (`pending`, `completed`, `skipped`), `ACTIVITY_TYPES` (`problem`, `revision`, `contest`), `DailyTaskItemInput`, `AssignDailyTasksInput`, `CompleteTaskInput`, `RecordContestInput`.
+      - [validation.ts](file:///d:/DSA_OS/src/domain/scheduling/validation.ts): `assignDailyTasksSchema` (with task-type specific requirement refinement: `new_problem` requires `problemId`, `revision` requires `revisionId`), `completeTaskSchema`, `recordContestSchema`.
+      - [service.ts](file:///d:/DSA_OS/src/domain/scheduling/service.ts) (`SchedulingService`): `assignDailyTasks` (with duplicate slot validation), `completeDailyTask` (verifying task exists, belongs to user, and is in `pending` status before atomic completion and activity counter increment), `recordContestParticipation`, `getTasksForDate`, `getDailyActivity`, `getDailyActivityHistory`, `getContestHistory`.
+      - [index.ts](file:///d:/DSA_OS/src/domain/scheduling/index.ts): Domain exports.
+    - **Root Domain Index ([src/domain/index.ts](file:///d:/DSA_OS/src/domain/index.ts)):**
+      - Clean top-level re-export for curriculum, attempts, journal, revisions, and scheduling domains.
+  - **Database Repository Enhancement:**
+    - [scheduling-repository.ts](file:///d:/DSA_OS/src/db/repositories/scheduling-repository.ts): Added `getTaskById` method for user-scoped task lookup.
+  - **Vitest Unit Test Suite:**
+    - [tests/unit/domain/attempts.test.ts](file:///d:/DSA_OS/tests/unit/domain/attempts.test.ts): 15 tests verifying validation rules, flag derivation, mistake code resolution, and service methods.
+    - [tests/unit/domain/journal.test.ts](file:///d:/DSA_OS/tests/unit/domain/journal.test.ts): 8 tests verifying journal validation, cross-entity attempt ownership, problem matching, and service operations.
+    - [tests/unit/domain/revisions.test.ts](file:///d:/DSA_OS/tests/unit/domain/revisions.test.ts): 7 tests verifying review schemas, atomic review recording, and schedule initializations.
+    - [tests/unit/domain/scheduling.test.ts](file:///d:/DSA_OS/tests/unit/domain/scheduling.test.ts): 9 tests verifying daily task type validation, duplicate slot rejection, legal status transitions (`pending` only), contest event logging, and daily activity counter increments.
+* **Why It Changed:**
+  - Build the server-authoritative application service and runtime validation layer specified in `DSA_OS_IMPLEMENTATION_PLAN.md` (§ 13) and `DSA_OS_BUSINESS_LOGIC.md`, bridging raw data access repositories with domain business invariants.
+* **Files Created:**
+  - `src/domain/curriculum/types.ts`, `src/domain/curriculum/validation.ts`, `src/domain/curriculum/index.ts`
+  - `src/domain/attempts/types.ts`, `src/domain/attempts/validation.ts`, `src/domain/attempts/service.ts`, `src/domain/attempts/index.ts`
+  - `src/domain/journal/types.ts`, `src/domain/journal/validation.ts`, `src/domain/journal/service.ts`, `src/domain/journal/index.ts`
+  - `src/domain/revisions/types.ts`, `src/domain/revisions/validation.ts`, `src/domain/revisions/service.ts`, `src/domain/revisions/index.ts`
+  - `src/domain/scheduling/types.ts`, `src/domain/scheduling/validation.ts`, `src/domain/scheduling/service.ts`, `src/domain/scheduling/index.ts`
+  - `src/domain/index.ts`
+  - `tests/unit/domain/attempts.test.ts`, `tests/unit/domain/journal.test.ts`, `tests/unit/domain/revisions.test.ts`, `tests/unit/domain/scheduling.test.ts`
+* **Files Modified:**
+  - [src/db/repositories/scheduling-repository.ts](file:///d:/DSA_OS/src/db/repositories/scheduling-repository.ts)
+  - [docs/DEVELOPMENT_LOG.md](file:///d:/DSA_OS/docs/DEVELOPMENT_LOG.md)
+* **Architecture Decisions:**
+  - **Server-Authoritative Business Logic:** Domain rules live in domain services and Zod validation schemas rather than React components or raw queries.
+  - **Cross-Entity Invariant Checks:** Cross-entity relationships (such as linking an attempt to a journal entry) explicitly verify user ownership and problem match at the service boundary before mutation.
+  - **Strict State Transitions:** Tasks must be in `pending` status to transition to `completed`. Terminal states cannot be transitioned again.
+* **Testing & Verification:**
+  - `npm run typecheck`: PASSED (0 errors).
+  - `npm run test`: PASSED (10 test files, 94/94 unit tests passed).
+  - `npm run build`: PASSED (Next.js 15.5 compiled all routes cleanly in 5.4s).
+* **Final Outcome:** Phase 5 Domain Type System, Runtime Validation & Application Services complete and verified.
+
+---
+
+### Phase 5 Summary
+* **Objective:** Establish the domain type system, Zod runtime validation schemas, and server-authoritative application services across curriculum, attempts, journal, revisions, and scheduling.
+* **Major Work Completed:** Created 20 domain source files across 5 domain modules, added 4 unit test suites (39 new domain tests, 94 total across project), enforced strict outcome consistency and state transition rules.
+* **Important Decisions:** Separated domain validation and business rules from UI and raw database queries; verified cross-entity ownership at service boundaries.
+* **Files Affected:** 24 new files created, 2 files modified.
+* **Tests / Verification:** `typecheck` (0 errors), 94/94 Vitest unit tests passed, Next.js production `build` passed.
+* **Final Status:** Phase 5 Domain / Application Services complete. Ready for Phase 6.
+
+
 
 
 

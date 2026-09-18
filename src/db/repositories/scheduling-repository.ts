@@ -62,6 +62,17 @@ export class SchedulingRepository {
   }
 
   /**
+   * Retrieves a single daily task by ID ensuring user ownership.
+   */
+  async getTaskById(
+    userId: string,
+    taskId: string,
+    client?: DbOrTx
+  ): Promise<DailyTask | null> {
+    return await getDailyTaskById(userId, taskId, client);
+  }
+
+  /**
    * Atomically completes a daily task and increments the user's daily activity counter.
    */
   async completeTaskAndLogActivity(
