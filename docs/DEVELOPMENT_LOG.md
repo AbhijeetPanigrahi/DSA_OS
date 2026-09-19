@@ -558,6 +558,75 @@ For every implementation, feature, bug fix, refactor, or configuration change co
 * **Tests / Verification:** `typecheck` (0 errors), 94/94 Vitest unit tests passed, Next.js production `build` passed.
 * **Final Status:** Phase 5 Domain / Application Services complete. Ready for Phase 6.
 
+---
+
+## Phase 6 — Timezone & User Context Engine
+
+### Entry 6.1 — Timezone Validation, Deterministic Calendar-Day Math & User Context Service
+* **Date / Time:** 2026-09-19
+* **Phase:** Phase 6 — Timezone & User Context Engine
+* **Change Title:** Centralized Timezone & Calendar Math Utilities, IANA Validation, UserContextService & Comprehensive Test Suite
+* **What Changed:**
+  - Implemented centralized, pure date and timezone calculation utilities in [src/lib/dates/index.ts](file:///d:/DSA_OS/src/lib/dates/index.ts):
+    - `isValidIanaTimezone` / `assertValidTimezone`: Strict IANA timezone validation via `Intl.DateTimeFormat`.
+    - `getUserLocalDate(timestamp, timezone)`: Converts UTC `Date` timestamps into user-local calendar date strings (`YYYY-MM-DD`).
+    - `getUserLocalWeekday(input, timezone?)`: Computes ISO weekday `1` (Monday) through `7` (Sunday) from `YYYY-MM-DD` strings or `Date` timestamps.
+    - `getStartOfUserDay(dateStr, timezone)`: Converts user-local calendar midnight (`00:00:00.000`) to exact UTC `Date`.
+    - `getEndOfUserDay(dateStr, timezone)`: Computes user-local day end as 1ms before next calendar day start (`23:59:59.999`), cleanly handling 23h and 25h DST transition days.
+    - `addLocalDays(dateStr, days)`: Pure calendar date math independent of elapsed UTC hours or DST offsets.
+    - `differenceInLocalDays(dateStrLeft, dateStrRight)`: Integer calendar day difference.
+    - `isSameLocalDay(dateA, dateB, timezone)`: Checks if two UTC timestamps fall on the same local date.
+    - `getUserLocalWeekBoundaries(referenceDate, timezone)`: Computes user-local Monday 00:00:00.000 to Sunday 23:59:59.999 week boundaries.
+    - `formatUserDateDisplay` / `formatUserTimeDisplay`: Localized display helpers.
+  - Implemented User Context Domain Module under `src/domain/user/`:
+    - [types.ts](file:///d:/DSA_OS/src/domain/user/types.ts): `DayContext`, `UserContext`, `UpdateUserProfileInput`, `UpdateUserSettingsInput`.
+    - [validation.ts](file:///d:/DSA_OS/src/domain/user/validation.ts): Zod schemas with IANA timezone validation (`ianaTimezoneSchema`, `updateUserProfileSchema`, `updateUserSettingsSchema`).
+    - [service.ts](file:///d:/DSA_OS/src/domain/user/service.ts) (`UserContextService`):
+      - `getUserContext(userId)`: Resolves user profile and settings; strictly checks that `profile.timezone` is valid without silent fallback.
+      - `getUserDayContext(userId, referenceDate?)`: Computes deterministic user day context (`dateStr`, `dayOfWeek`, `dayName`, `isWeekday`, `isSaturday`, `isSunday`, `startOfDayUtc`, `endOfDayUtc`, `timezone`).
+      - `updateUserTimezone(userId, timezone)`: Validates IANA timezone and updates profile.
+      - `updateUserProfile(userId, input)`: Validates and updates user profile attributes.
+      - `updateUserSettings(userId, input)`: Validates and updates user settings.
+    - [index.ts](file:///d:/DSA_OS/src/domain/user/index.ts): Domain exports.
+  - Root domain export updated in [src/domain/index.ts](file:///d:/DSA_OS/src/domain/index.ts).
+  - Comprehensive Unit Test Suites:
+    - [tests/unit/lib/dates.test.ts](file:///d:/DSA_OS/tests/unit/lib/dates.test.ts): 22 tests verifying IANA validation, positive/negative/fractional offsets (+5:30 IST, -4:00 EDT, +5:45 Nepal, +9:30 Adelaide, +14:00 Kiritimati, -11:00 Niue), midnight boundaries, DST transitions (25h Fall-back, 23h Spring-forward), leap years, and week boundaries.
+    - [tests/unit/domain/user-context.test.ts](file:///d:/DSA_OS/tests/unit/domain/user-context.test.ts): 13 tests verifying `UserContextService`, schema validation, absence of silent fallback, deterministic `DayContext` generation, and ownership enforcement.
+* **Why It Changed:**
+  - Build the foundational Timezone & User Context Engine specified in `DSA_OS_IMPLEMENTATION_PLAN.md` (§ 14), `DSA_OS_BUSINESS_LOGIC.md` (§ 6), and `DSA_OS_TECHNICAL_ARCHITECTURE.md` (§ 70–72), ensuring all daily logic and date interpretations are strictly user-timezone-aware.
+* **Files Created:**
+  - `src/domain/user/types.ts`
+  - `src/domain/user/validation.ts`
+  - `src/domain/user/service.ts`
+  - `src/domain/user/index.ts`
+  - `tests/unit/lib/dates.test.ts`
+  - `tests/unit/domain/user-context.test.ts`
+* **Files Modified:**
+  - [src/lib/dates/index.ts](file:///d:/DSA_OS/src/lib/dates/index.ts)
+  - [src/domain/index.ts](file:///d:/DSA_OS/src/domain/index.ts)
+  - [docs/DEVELOPMENT_LOG.md](file:///d:/DSA_OS/docs/DEVELOPMENT_LOG.md)
+* **Architecture Decisions:**
+  - **Authoritative `profiles.timezone`:** The user's configured timezone in `profiles.timezone` is strictly required. No silent fallback to default timezone masks data-integrity issues.
+  - **Pure Calendar Math:** `addLocalDays` and `differenceInLocalDays` operate purely on calendar dates (`YYYY-MM-DD`), preventing timezone and DST drift.
+  - **Dynamic End-of-Day Boundary:** `getEndOfUserDay` calculates `nextDayStart - 1ms`, naturally adjusting for 23-hour or 25-hour DST transition days.
+  - **Deterministic Testing:** All date and context methods accept an optional reference timestamp parameter for deterministic testing.
+* **Testing & Verification:**
+  - `npm run typecheck`: PASSED (0 errors).
+  - `npm run test`: PASSED (12 test files, 129/129 unit tests passed).
+  - `npm run build`: PASSED (13/13 static/dynamic routes compiled in 3.3s).
+* **Final Outcome:** Phase 6 Timezone & User Context Engine complete and verified.
+
+---
+
+### Phase 6 Summary
+* **Objective:** Establish the centralized Date, Timezone, and User Context Engine to guarantee user-timezone-aware date calculations across all downstream scheduling, revision, and calendar engines.
+* **Major Work Completed:** Implemented 11 pure date/timezone utilities, created user domain module with `UserContextService`, added 35 new unit tests (129 total across project).
+* **Important Decisions:** Validated IANA timezones strictly; enforced `profiles.timezone` without silent fallback; built calendar date math independent of DST and UTC elapsed hours.
+* **Files Affected:** 6 files created, 3 files modified (9 total files).
+* **Tests / Verification:** `typecheck` (0 errors), 129/129 Vitest unit tests passed, Next.js production `build` passed.
+* **Final Status:** Phase 6 complete. Ready for Phase 7 (Spaced Repetition & Revision Engine).
+
+
 
 
 

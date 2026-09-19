@@ -76,7 +76,7 @@ export default function LoginPage() {
         </form>
 
         <div className="text-center text-xs text-dsa-muted pt-2 border-t border-dsa-border/60">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/signup" className="text-brand font-semibold hover:underline">
             Sign Up
           </Link>
